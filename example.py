@@ -18,10 +18,11 @@ async def get_prayer_times(latitude: float, longitude: float):
         "method": 3
     }
     
-    current_date = datetime.now().strftime("%d-%m-%Y")
+    # Получаем вчерашнюю дату
+    yesterday_date = (datetime.now() - timedelta(days=1)).strftime("%d-%m-%Y")
     
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{ALADHAN_API_URL}/{current_date}", params=params)
+        response = await client.get(f"{ALADHAN_API_URL}/{yesterday_date}", params=params)
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail="Ошибка при получении времени молитв")
         
@@ -38,7 +39,6 @@ async def get_prayer_times(latitude: float, longitude: float):
             "Isha": timings["Isha"]
         }
         
-     
         tune_offsets = [1,-2,5,2,4,4,-12] 
         prayer_names = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Sunset", "Maghrib", "Isha"]
         
