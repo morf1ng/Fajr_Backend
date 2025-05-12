@@ -51,5 +51,3 @@ async def get_prayer_times(latitude: float, longitude: float):
                     filtered_timings[prayer_name] = adjusted_time.strftime("%H:%M")
         
         return filtered_timings
-    
-
